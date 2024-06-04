@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #ffe4c4;
+}
+
+.box {
+    position: relative;
+    width: 200px;
+    height: auto;
+}
+
+.box .love {
+    width: 200px;
+    height: 200px;
+    background-color: #f00;
+    border-radius: 10px;
+    box-shadow: #333 10px 10px 15px;
+    transform: rotate(45deg) scale(0.9);
+    animation: Love_You 1s linear infinite;
+}
+
+.box .love::before,
+.box .love::after {
+    content: "";
+    width: 200px;
+    height: 200px;
+    background-color: #f00;
+    border-radius: 50%;
+}
+
+.box .love::before {
+    position: absolute;
+    top: -50%;
+}
+
+.box .love::after {
+    position: absolute;
+    left: -50%;
+}
+
+@keyframes Love_You {
+    form {
+        transform: rotate(45deg) scale(0.9);
+    }
+    to {
+        transform: scale(1) rotate(45deg);
+    }
+}
+
+.box .text {
+    position: absolute;
+    top: 260px;
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+}
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="love"></div>
+        <p class="text">欢迎来到我的世界</p>
+    </div>
+</body>
+
+</html>

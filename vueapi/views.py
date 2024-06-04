@@ -1,3 +1,5 @@
+import time
+
 from django.shortcuts import render,HttpResponse
 import json
 # Create your views here.
@@ -37,3 +39,18 @@ def test2(request):
 def test3(request):
     print(request.GET.dict())
     return render(request,'tz.html')
+
+
+def redis_ex(request):
+    from django.core.cache import caches
+    request.cache_time = 30
+    cache = caches['view_cache']
+    cache_key1 = 'redis_ex_time'
+    # 引入缓存
+    cache_ret = cache.get(cache_key1)
+    if not cache_ret:
+        typelist = time.time()
+        cache.set(cache_key1, typelist, request.cache_time)
+    else:
+        typelist = cache_ret
+    return HttpResponse(typelist)

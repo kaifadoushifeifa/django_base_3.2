@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "sslserver",
+    "sslserver",#用于搭建https访问
     'mdeditor',#markdown编辑
     'vueapi'
 ]
@@ -77,13 +77,71 @@ WSGI_APPLICATION = 'django_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': str(BASE_DIR / 'db.sqlite3'),
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(BASE_DIR / 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME':'game2_0',  # 要连接的数据库，连接前需要创建好 CREATE DATABASE `game2_0` DEFAULT CHARACTER SET utf8;
+        'USER':'root', # 连接数据库的用户名
+        'HOST': '127.0.0.1',  # 连接主机，默认本级  本地服务器
+        # 'PASSWORD': '123456zxc',  # 连接数据库的密码
+        # 'HOST': '172.17.0.1',  # 香港mysql本机
+        'PASSWORD':'123456zxc', # 香港服务器
+        'PORT': 3306 ,      #  端口 默认3306
+        'OPTIONS': {'charset': 'utf8mb4'}#测试能保存emoji表情
     }
 }
 
+# redis数据库设置
+redis_setting = {
+    # 'HOST':'192.168.164.132',
+    # 'HOST':'192.168.17.132',
+    'HOST':'127.0.0.1',#本机
+    'PASSWORD':None #没有就填 None
+}
+CACHES = {
+    #默认缓存
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': f'redis://{redis_setting["HOST"]}:6379',
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": redis_setting['PASSWORD'],
+        },
+    },
+    #黑名单缓存
+    'redis_black': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': f'redis://{redis_setting["HOST"]}:6379/2',
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+             "PASSWORD": redis_setting['PASSWORD'],
+        },
+    },
+    #模板缓存
+    'template_cache': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': f'redis://{redis_setting["HOST"]}:6379/3',
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": redis_setting['PASSWORD'],
+        },
+    },
+    #视图缓存
+    'view_cache': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': f'redis://{redis_setting["HOST"]}:6379/4',
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": redis_setting['PASSWORD'],
+        },
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

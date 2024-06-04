@@ -16,22 +16,10 @@ Including another URLconf
 from django.contrib import admin
 # from django.urls import path
 from django.conf.urls import url
-# from django.urls import re_path as url
-from django.urls import re_path, include
-from django.views.static import serve
-from django.conf import settings
 from vueapi import views
 urlpatterns = [
     url('test/', views.test),
     url('test1/', views.test1),
-    re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
-    url(r'mdeditor/', include('mdeditor.urls')),  # md编辑器
-    re_path(r'media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
-]
-#本设置用来保证mdeditor 能够找到目录下的图片
-from django.conf.urls.static import static
-from django.conf import settings
 
-if settings.DEBUG:
-    # static files (images, css, javascript, etc.)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+

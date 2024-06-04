@@ -14,13 +14,30 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from django.conf.urls import include
 from django.urls import re_path as url
+from django.views.static import serve
 from vueapi import views
+#本设置用来保证mdeditor 能够找到目录下的图片
+from django.conf.urls.static import static
+from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
+    re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+    re_path(r'media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    url(r'mdeditor/', include('mdeditor.urls')),  # md编辑器
+
+
     path('tz/', views.test3),
     path('liyanqing/', views.test2),
+    url('redis_ex/', views.redis_ex),
     url(r'^vueapi/', include(('vueapi.urls','vueapi'), namespace='vueapi')),
+
+
 ]
+
+
+if settings.DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

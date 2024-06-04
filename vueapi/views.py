@@ -6,7 +6,7 @@ import json
 
 def test(request):
     data1 = {
-        'name':"周港",
+        'name':"yes",
         'age':24,
         'hobby':"打篮球",
     }
